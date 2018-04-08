@@ -139,7 +139,7 @@ namespace System.Option
         /// \brief Get the given Opt's Option instance, lazily creating it
         /// if necessary.
         ///
-        /// \return The option, or null for the INVALID option id.
+        /// <returns>The option, or null for the INVALID option id.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Option GetOption(OptionSpecifier opt)
         {
@@ -203,7 +203,7 @@ namespace System.Option
         /// \param [in] Arg - Value which we want to autocomplete like "l"
         /// when "-stdlib=l" was passed to clang.
         ///
-        /// \return The vector of possible values.
+        /// <returns>The vector of possible values.</returns>
         public List<string> SuggestValueCompletions(string option,
                                                     string arg)
         {
@@ -242,7 +242,7 @@ namespace System.Option
         /// \param [in] Cur - String prefix that all returned flags need
         //  to start with.
         ///
-        /// \return The vector of flags which start with Cur.
+        /// <returns>The vector of flags which start with Cur.</returns>
         public List<string> FindByPrefix(string cur,
                                          ushort disableFlags)
         {
@@ -280,6 +280,146 @@ namespace System.Option
             return ret;
         }
 
+        /// Find the OptTable option that most closely matches the given string.
+        ///
+        /// \param [in] Option - A string, such as "-stdlibs=l", that represents user
+        /// input of an option that may not exist in the OptTable. Note that the
+        /// string includes prefix dashes "-" as well as values "=l".
+        /// \param [out] NearestString - The nearest option string found in the
+        /// OptTable.
+        /// \param [in] FlagsToInclude - Only find options with any of these flags.
+        /// Zero is the default, which includes all flags.
+        /// \param [in] FlagsToExclude - Don't find options with this flag. Zero
+        /// is the default, and means exclude nothing.
+        /// \param [in] MinimumLength - Don't find options shorter than this length.
+        /// For example, a minimum length of 3 prevents "-x" from being considered
+        /// near to "-S".
+        ///
+        /// <returns>The edit distance of the nearest string found.</returns>
+        public int FindNearest(string option,
+                               ref string nearestString,
+                               int    flagsToInclude = 0,
+                               int    flagsToExclude = 0,
+                               int    minimumLength  = 4)
+
+        {
+            //assert(!Option.empty());
+
+            // Consider each option as a candidate, finding the closest match.
+            int bestDistance = int.MaxValue;
+
+            foreach(OptionInfo candidateInfo in _optionInfos.Skip(_firstSearchableIndex))
+            {
+                string candidateName = candidateInfo.Name;
+
+                // Ignore option candidates with empty names, such as "--", or names
+                // that do not meet the minimum length.
+                if(!string.IsNullOrEmpty(candidateName) || candidateName.Length < minimumLength)
+                {
+                    continue;
+                }
+
+                // If FlagsToInclude were specified, ignore options that don't include
+                // those flags.
+                if(flagsToInclude > 0 && (candidateInfo.Flags & flagsToInclude) == 0)
+                {
+                    continue;
+                }
+
+                // Ignore options that contain the FlagsToExclude.
+                if((candidateInfo.Flags & flagsToExclude) != 0)
+                {
+                    continue;
+                }
+
+                // Ignore positional argument option candidates (which do not
+                // have prefixes).
+                if(candidateInfo.Prefixes == null)
+                {
+                    continue;
+                }
+
+                // Find the most appropriate prefix. For example, if a user asks for
+                // "--helm", suggest "--help" over "-help".
+                string prefix = candidateInfo.Prefixes[0];
+
+                for(int p = 1; candidateInfo.Prefixes[p] != null; p++)
+                {
+                    if(option.StartsWith(candidateInfo.Prefixes[p]))
+                        prefix = candidateInfo.Prefixes[p];
+                }
+
+                // Check if the candidate ends with a character commonly used when
+                // delimiting an option from its value, such as '=' or ':'. If it does,
+                // attempt to split the given option based on that delimiter.
+                string delimiter = "";
+                char   last      = candidateName.Last();
+
+                if(last == '=' || last == ':')
+                {
+                    delimiter += last;
+                }
+
+                string lhs = string.Empty;
+                string rhs = string.Empty;
+
+                if(string.IsNullOrEmpty(delimiter))
+                {
+                    lhs = option;
+                }
+                else
+                {
+                    (lhs, rhs) = option.SplitInTwo(last);
+                }
+
+                string normalizedName = (lhs.Skip(prefix.Length) + delimiter);
+
+                int distance = candidateName.EditDistance(normalizedName, /*AllowReplacements=*/
+                                                          true,           /*MaxEditDistance=*/
+                                                          bestDistance);
+
+                if(distance < bestDistance)
+                {
+                    bestDistance  = distance;
+                    nearestString = (prefix + candidateName + rhs);
+                }
+            }
+
+            return bestDistance;
+        }
+
+        /// Add Values to Option's Values class
+        ///
+        /// \param [in] Option - Prefix + Name of the flag which Values will be
+        ///  changed. For example, "-analyzer-checker".
+        /// \param [in] Values - String of Values seperated by ",", such as
+        ///  "foo, bar..", where foo and bar is the argument which the Option flag
+        ///  takes
+        ///
+        /// <returns>true in success, and false in fail.</returns>
+        public bool AddValues(string option,
+                              string values)
+        {
+            for(int I = _firstSearchableIndex, e = _optionInfos.Count; I < e; I++)
+            {
+                OptionInfo In = _optionInfos[I];
+                if(OptionMatches(In,
+                                 option))
+                {
+                    In.Values = values;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="prefixes"></param>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         public static bool IsInput(HashSet<string> prefixes,
                                    string          arg)
         {
@@ -299,7 +439,7 @@ namespace System.Option
             return true;
         }
 
-        /// \returns Matched size. 0 means no match.
+        /// <returns>Matched size. 0 means no match.</returns>
         public static int MatchOption(OptionInfo I,
                                       string     str,
                                       bool       ignoreCase)
@@ -313,7 +453,8 @@ namespace System.Option
                         string rest = str.Substring(pre.Length);
 
                         bool matched = ignoreCase
-                                               ? rest.StartsWith(I.Name, StringComparison.InvariantCultureIgnoreCase)
+                                               ? rest.StartsWith(I.Name,
+                                                                 StringComparison.InvariantCultureIgnoreCase)
                                                : rest.StartsWith(I.Name);
                         if(matched)
                         {
@@ -355,9 +496,7 @@ namespace System.Option
         /// \param [in] FlagsToExclude - Don't parse options with this flag.  Zero
         /// is the default and means exclude nothing.
         ///
-        /// \return The parsed argument, or 0 if the argument is missing values
-        /// (in which case Index still points at the conceptual next argument string
-        /// to parse).
+        /// <returns>The parsed argument, or 0 if the argument is missing values (in which case Index still points at the conceptual next argument string to parse).</returns>
         public Argument ParseOneArg(ArgumentList args,
                                     ref int      index,
                                     int          flagsToInclude = 0,
@@ -382,7 +521,8 @@ namespace System.Option
             string name = string.Concat(str.SkipWhile(item => _prefixChars.Any(chars => chars == item)));
 
             // Search for the first next option which could be a prefix.
-            startEnd = startEnd.SkipWhile(item => !name.StartsWith(item.Name.ToString(), StringComparison.InvariantCultureIgnoreCase));
+            startEnd = startEnd.SkipWhile(item => !name.StartsWith(item.Name.ToString(),
+                                                                   StringComparison.InvariantCultureIgnoreCase));
 
             // Options are stored in sorted order, with '\0' at the end of the
             // alphabet. Since the only options which can accept a string must
@@ -479,8 +619,7 @@ namespace System.Option
         /// Zero is the default which includes all flags.
         /// \param FlagsToExclude - Don't parse options with this flag.  Zero
         /// is the default and means exclude nothing.
-        /// \return An InputArgumentList; on error this will contain all the options
-        /// which could be parsed.
+        /// <returns>An InputArgumentList; on error this will contain all the options which could be parsed.</returns>
         public InputArgumentList ParseArgs(string[] argArr,
                                            out int  missingArgIndex,
                                            out int  missingArgCount,

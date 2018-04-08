@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace System
 {
@@ -31,29 +32,34 @@ namespace System
             Swap(ref First, ref right.First);
             Swap(ref Second, ref right.Second);
         }
-
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void Swap<TTy>(ref TTy left, ref TTy right)
         {
             TTy tmp = left;
             left  = right;
             right = tmp;
         }
-
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator (TTy1, TTy2)(Pair<TTy1, TTy2> pair)
         {
             return (pair.First, pair.Second);
         }
-
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator Tuple<TTy1, TTy2>(Pair<TTy1, TTy2> pair)
         {
             return new Tuple<TTy1, TTy2>(pair.First, pair.Second);
         }
-
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator Pair<TTy1, TTy2>(ValueTuple<TTy1, TTy2> valueTuple)
         {
             return new Pair<TTy1, TTy2>(valueTuple.Item1, valueTuple.Item2);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator Pair<TTy1, TTy2>(Tuple<TTy1, TTy2> tuple)
         {
             return new Pair<TTy1, TTy2>(tuple.Item1, tuple.Item2);

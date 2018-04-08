@@ -76,8 +76,15 @@
     <Compile Include="Option\RenderStyleKind.cs" />
     <Compile Include="Option\OptionSpecifier.cs" />
     <Compile Include="Option\OptionInfo.cs" />
+    <Compile Include="StringExt.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EnumBuilder.tt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

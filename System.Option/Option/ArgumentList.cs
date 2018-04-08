@@ -377,7 +377,7 @@ namespace System.Option
         /// @name Argument Synthesis
         /// @{
         /// Construct a constant string pointer whose
-        /// lifetime will match that of the ArgList.
+        /// lifetime will match that of the ArgList.       
         public virtual string MakeArgStringRef(string str)
         {
             throw new NotImplementedException();
