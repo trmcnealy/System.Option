@@ -75,6 +75,7 @@
     <Compile Include="Option\InputArgumentList.cs" />
     <Compile Include="Option\OptionKind.cs" />
     <Compile Include="Option\OptionTable.cs" />
+    <Compile Include="Option\OptionTableExt.cs" />
     <Compile Include="Option\RenderStyleKind.cs" />
     <Compile Include="Option\OptionSpecifier.cs" />
     <Compile Include="Option\OptionInfo.cs" />

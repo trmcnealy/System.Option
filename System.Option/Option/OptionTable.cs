@@ -10,7 +10,7 @@ namespace System.Option
     public class OptionTable
     {
         /// \brief The static option information table.
-        private List<OptionInfo> _optionInfos;
+        internal List<OptionInfo> _optionInfos;
 
         private bool _ignoreCase;
 
@@ -942,5 +942,6 @@ namespace System.Option
                       0,
                       showHidden ? 0 : (int)DriverFlag.HelpHidden); //Exclude
         }
+
     }
 }
