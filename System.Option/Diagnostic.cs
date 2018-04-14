@@ -7,19 +7,15 @@ namespace System
 {
     public static class Diagnostic
     {
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static void Tracer(params object[] parameters)
-        //{
-        //    StackTrace st = new StackTrace();
-        //    StackFrame sf = st.GetFrame (1);
 
-        //    Debug.WriteLine(sf.GetMethod().Name);
-        //}
-
+        /// <summary>
+        /// usage Debug.WriteLine(System.Diagnostic.Tracer(r));
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Tracer(params object[] parameters)
         {
-            //Debug.WriteLine(Tracer());
             StringBuilder sb = new StringBuilder();
 
             StackTrace stackTrace = new StackTrace();

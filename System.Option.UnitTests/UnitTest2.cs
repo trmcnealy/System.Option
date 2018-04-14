@@ -4714,6 +4714,18 @@ namespace System.Option.UnitTests2
                 "\"C:/ProgramData/NVIDIA Corporation/CUDA Samples/v9.1/0_Simple/matrixMul/matrixMul.cpp\""
         };
 
+        public static ushort GetAlias(ushort opt_id)
+        {
+            var alias = InfoTable.Where(item => item.Id == opt_id).FirstOrDefault();
+
+            if(alias != null)
+            {
+                return alias.AliasId;
+            }
+
+            return opt_id;
+        }
+
         [TestMethod]
         public void TestOptionParsing()
         {
@@ -4723,24 +4735,27 @@ namespace System.Option.UnitTests2
                                                out int missingArgIndex,
                                                out int missingArgCount);
 
-            //Assert.IsTrue(al.HasArg(OPT_ID.OPT_D));
-            ////Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_D));
-            //Assert.IsTrue(al.HasArg(OPT_ID.OPT_E));
-            //Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_TP));
-            //Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_nologo));
-            //Assert.IsTrue(al.HasArg(OPT_ID.OPT_fms_compatibility));
-            //Assert.IsTrue(al.HasArg(OPT_ID.OPT_fms_compatibility_version));
-            //Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_std));
-            //Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_EH));
-            //Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_FS));
-            //Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_RTC));
-            //Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_MTd));
-            //Assert.IsTrue(al.HasArg(OPT_ID.OPT_I));
+            Assert.IsTrue(al.HasArg(OPT_ID.OPT_D));
+            Assert.IsTrue(al.HasArg(GetAlias(OPT_ID.OPT__SLASH_D)));
 
-            Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_W0));
-            Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_Od));
-            Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_Zi));
-            Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_FI));
+            Assert.IsTrue(al.HasArg(OPT_ID.OPT_E));
+            Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_TP));
+            Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_nologo));
+            Assert.IsTrue(al.HasArg(OPT_ID.OPT_fms_compatibility));
+            Assert.IsTrue(al.HasArg(OPT_ID.OPT_fms_compatibility_version));
+            Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_std));
+            Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_EH));
+            Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_FS));
+            Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_RTC));
+            Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_MTd));
+            Assert.IsTrue(al.HasArg(OPT_ID.OPT_I));
+
+            Assert.IsTrue(al.HasArg(OPT_ID.OPT_w));
+            Assert.IsTrue(al.HasArg(GetAlias(OPT_ID.OPT__SLASH_Od)));
+            Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_Z7));
+            Assert.IsTrue(al.HasArg(GetAlias(OPT_ID.OPT__SLASH_Zi)));
+            Assert.IsTrue(al.HasArg(OPT_ID.OPT_include));
+            Assert.IsTrue(al.HasArg(GetAlias(OPT_ID.OPT__SLASH_FI)));
         }
     }
 }

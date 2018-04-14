@@ -449,79 +449,54 @@ namespace System.Option
             if(kind == OptionKind.GroupClass)
             {
                 o.Append("GroupClass");
-                return;
             }
-
-            if(kind == OptionKind.InputClass)
+            else if(kind == OptionKind.InputClass)
             {
                 o.Append("InputClass");
-                return;
             }
-
-            if(kind == OptionKind.UnknownClass)
+            else if(kind == OptionKind.UnknownClass)
             {
                 o.Append("UnknownClass");
-                return;
             }
-
-            if(kind == OptionKind.FlagClass)
+            else if(kind == OptionKind.FlagClass)
             {
                 o.Append("FlagClass");
-                return;
             }
-
-            if(kind == OptionKind.JoinedClass)
+            else if(kind == OptionKind.JoinedClass)
             {
                 o.Append("JoinedClass");
-                return;
             }
-
-            if(kind == OptionKind.ValuesClass)
+            else if(kind == OptionKind.ValuesClass)
             {
                 o.Append("ValuesClass");
-                return;
             }
-
-            if(kind == OptionKind.SeparateClass)
+            else if(kind == OptionKind.SeparateClass)
             {
                 o.Append("SeparateClass");
-                return;
             }
-
-            if(kind == OptionKind.CommaJoinedClass)
+            else if(kind == OptionKind.CommaJoinedClass)
             {
                 o.Append("CommaJoinedClass");
-                return;
             }
-
-            if(kind == OptionKind.MultiArgClass)
+            else if(kind == OptionKind.MultiArgClass)
             {
                 o.Append("MultiArgClass");
-                return;
             }
-
-            if(kind == OptionKind.JoinedOrSeparateClass)
+            else if(kind == OptionKind.JoinedOrSeparateClass)
             {
                 o.Append("JoinedOrSeparateClass");
-                return;
             }
-
-            if(kind == OptionKind.JoinedAndSeparateClass)
+            else if(kind == OptionKind.JoinedAndSeparateClass)
             {
                 o.Append("JoinedAndSeparateClass");
-                return;
             }
-
-            if(kind == OptionKind.RemainingArgsClass)
+            else if(kind == OptionKind.RemainingArgsClass)
             {
                 o.Append("RemainingArgsClass");
-                return;
             }
-
-            if(kind == OptionKind.RemainingArgsJoinedClass)
+            else if(kind == OptionKind.RemainingArgsJoinedClass)
             {
                 o.Append("RemainingArgsJoinedClass");
-                return;
             }
 
             if(Info.Prefixes != null)

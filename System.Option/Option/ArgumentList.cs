@@ -49,8 +49,6 @@ namespace System.Option
                 r.First = 0;
             }
 
-            Debug.WriteLine(System.Diagnostic.Tracer(r));
-
             return r;
         }
 
@@ -99,8 +97,6 @@ namespace System.Option
 
         public IEnumerable<Argument> Filtered(params OptionSpecifier[] ids)
         {
-            Debug.WriteLine(System.Diagnostic.Tracer(ids));
-
             OptRange range = GetRange(ids);
 
             int b = range.First;

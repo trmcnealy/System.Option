@@ -503,8 +503,6 @@ namespace System.Option
                                     int          flagsToInclude = 0,
                                     int          flagsToExclude = 0)
         {
-            Debug.WriteLine(Diagnostic.Tracer(args, index));
-
             int    prev = index;
             string str  = args.GetArgString(index);
 
