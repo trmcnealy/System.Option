@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -261,6 +262,7 @@ namespace System.Option.UnitTests
         [TestMethod]
         public void TestOptionParsing()
         {
+
             OptionTable T = new OptionTable(InfoTable);
 
             int FlagsToInclude = 0;

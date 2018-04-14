@@ -572,5 +572,12 @@ namespace System.Option
             Print(o);
             Debug.WriteLine(o);
         }
+
+        public override string ToString()
+        {
+            StringBuilder o = new StringBuilder();
+            Print(o);
+            return o.ToString();
+        }
     }
 }

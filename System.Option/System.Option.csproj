@@ -66,6 +66,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Diagnostic.cs" />
+    <Compile Include="DictionaryExt.cs" />
     <Compile Include="Option\Argument.cs" />
     <Compile Include="Option\ArgumentList.cs" />
     <Compile Include="Option\DriverFlag.cs" />

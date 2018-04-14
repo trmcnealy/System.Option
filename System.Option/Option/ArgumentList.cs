@@ -24,6 +24,7 @@ namespace System.Option
         /// reside, or (0, 0) if there are no such options.
         public OptRange GetRange(IEnumerable<OptionSpecifier> ids)
         {
+
             OptRange r = EmptyRange();
 
             int key;
@@ -48,6 +49,8 @@ namespace System.Option
                 r.First = 0;
             }
 
+            Debug.WriteLine(System.Diagnostic.Tracer(r));
+
             return r;
         }
 
@@ -55,22 +58,32 @@ namespace System.Option
         {
             _args.Add(a);
 
+            OptRange r;
+
             // Update ranges for the option and all of its groups.
             for(Option o = a.GetOption().GetUnaliasedOption(); o.IsValid(); o = o.GetGroup())
             {
-                if(!_optRanges.ContainsKey(o.GetId()))
-                {
-                    _optRanges.Add(o.GetId(),
-                                   new OptRange(_args.Count - 1,
-                                                _args.Count));
-                }
-                else
-                {
-                    OptRange r = _optRanges[o.GetId()];
-                    _optRanges[o.GetId()] = new OptRange(Math.Min(r.First,
-                                                                  _args.Count - 1),
-                                                         _args.Count);
-                }
+                r = _optRanges.Insert(new Pair<int, OptRange>(o.GetId(),
+                                                              new OptRange(_args.Count - 1,
+                                                                           _args.Count))).Second;
+
+                _optRanges[o.GetId()] = new OptRange(Math.Min(r.First,
+                                                              _args.Count - 1),
+                                                     _args.Count);
+
+                //if(!_optRanges.ContainsKey(o.GetId()))
+                //{
+                //    _optRanges.Add(o.GetId(),
+                //                   new OptRange(_args.Count - 1,
+                //                                _args.Count));
+                //}
+                //else
+                //{
+                //    OptRange r = _optRanges[o.GetId()];
+                //    _optRanges[o.GetId()] = new OptRange(Math.Min(r.First,
+                //                                                  _args.Count - 1),
+                //                                         _args.Count);
+                //}
             }
         }
 
@@ -86,6 +99,8 @@ namespace System.Option
 
         public IEnumerable<Argument> Filtered(params OptionSpecifier[] ids)
         {
+            Debug.WriteLine(System.Diagnostic.Tracer(ids));
+
             OptRange range = GetRange(ids);
 
             int b = range.First;
@@ -430,6 +445,13 @@ namespace System.Option
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public override string ToString()
+        {
+            StringBuilder o = new StringBuilder();
+            Print(o);
+            return o.ToString();
         }
     }
 }

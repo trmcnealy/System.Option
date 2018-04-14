@@ -275,5 +275,13 @@ namespace System.Option
 
             return os.ToString().Substring(1);
         }
+
+        
+        public override string ToString()
+        {
+            StringBuilder o = new StringBuilder();
+            Print(o);
+            return o.ToString();
+        }
     }
 }

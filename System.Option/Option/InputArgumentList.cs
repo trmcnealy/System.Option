@@ -79,5 +79,12 @@ namespace System.Option
         {
             return GetArgString(MakeIndex(str));
         }
+
+        //public override string ToString()
+        //{
+        //    StringBuilder o = new StringBuilder();
+        //    Print(o);
+        //    return o.ToString();
+        //}
     }
 }

@@ -82,5 +82,10 @@ namespace System.Option
         {
             return _id;
         }
+
+        public override string ToString()
+        {
+            return _id.ToString();
+        }
     }
 }

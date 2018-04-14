@@ -64,5 +64,10 @@ namespace System
         {
             return new Pair<TTy1, TTy2>(tuple.Item1, tuple.Item2);
         }
+
+        public override string ToString()
+        {
+            return First.ToString() + " " + Second.ToString();
+        }
     }
 }
