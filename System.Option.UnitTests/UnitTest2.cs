@@ -4666,7 +4666,7 @@ namespace System.Option.UnitTests2
         }
 
         string[] Args = {
-                "-D__CUDA_ARCH__=520",
+                "-D", "__CUDA_ARCH__=520",
                 "-nologo",
                 "-E",
                 "-TP",
@@ -4725,6 +4725,8 @@ namespace System.Option.UnitTests2
 
             Assert.IsTrue(al.HasArg(OPT_ID.OPT_D));
             Assert.IsTrue(al.HasArg(T.GetOptionAlias(OPT_ID.OPT__SLASH_D)));
+            
+            var defines = al.GetAllArgValues(T.GetOptionAlias(OPT_ID.OPT__SLASH_D));
 
             Assert.IsTrue(al.HasArg(OPT_ID.OPT_E));
             Assert.IsTrue(al.HasArg(OPT_ID.OPT__SLASH_TP));

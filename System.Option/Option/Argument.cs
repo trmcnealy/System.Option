@@ -82,6 +82,17 @@ namespace System.Option
             _values.Add(value1);
         }
 
+        public Argument(Argument argument)
+        {
+            _opt        = argument._opt;
+            _baseArg    = argument._baseArg;
+            _spelling   = argument._spelling;
+            _index      = argument._index;
+            _claimed    = argument._claimed;
+            _ownsValues = argument._ownsValues;
+            _values = new List<string>(argument._values);
+        }
+
         public void Dispose()
         {
             if(_ownsValues)

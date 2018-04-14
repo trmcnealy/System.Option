@@ -275,8 +275,7 @@ namespace System.Option
 
                 return a;
             }
-
-            if(kind == OptionKind.JoinedClass)
+            else if(kind == OptionKind.JoinedClass)
             {
                 string value = args.GetArgString(index).Substring(argSize);
                 return new Argument(unaliasedOption,
@@ -284,8 +283,7 @@ namespace System.Option
                                     index++,
                                     value);
             }
-
-            if(kind == OptionKind.CommaJoinedClass)
+            else if(kind == OptionKind.CommaJoinedClass)
             {
                 // Always matches.
                 var str = args.GetArgString(index).Substring(argSize).
@@ -302,8 +300,7 @@ namespace System.Option
 
                 return a;
             }
-
-            if(kind == OptionKind.SeparateClass)
+            else if(kind == OptionKind.SeparateClass)
             {
                 // Matches iff this is an exact match.
                 // FIXME: Avoid strlen.
@@ -324,8 +321,7 @@ namespace System.Option
                                     index - 2,
                                     args.GetArgString(index - 1));
             }
-
-            if(kind == OptionKind.MultiArgClass)
+            else if(kind == OptionKind.MultiArgClass)
             {
                 // Matches iff this is an exact match.
                 // FIXME: Avoid strlen.
@@ -351,8 +347,7 @@ namespace System.Option
 
                 return a;
             }
-
-            if(kind == OptionKind.JoinedOrSeparateClass)
+            else if(kind == OptionKind.JoinedOrSeparateClass)
             {
                 // If this is not an exact match, it is a joined arg.
                 // FIXME: Avoid strlen.
@@ -378,8 +373,7 @@ namespace System.Option
                                     index - 2,
                                     args.GetArgString(index - 1));
             }
-
-            if(kind == OptionKind.JoinedAndSeparateClass)
+            else if(kind == OptionKind.JoinedAndSeparateClass)
             {
                 // Always matches.
                 index += 2;
@@ -395,8 +389,7 @@ namespace System.Option
                                     args.GetArgString(index - 2).Substring(argSize),
                                     args.GetArgString(index - 1));
             }
-
-            if(kind == OptionKind.RemainingArgsClass)
+            else if(kind == OptionKind.RemainingArgsClass)
             {
                 // Matches iff this is an exact match.
                 // FIXME: Avoid strlen.
@@ -416,8 +409,7 @@ namespace System.Option
 
                 return a;
             }
-
-            if(kind == OptionKind.RemainingArgsJoinedClass)
+            else if(kind == OptionKind.RemainingArgsJoinedClass)
             {
                 var a = new Argument(unaliasedOption,
                                      spelling,

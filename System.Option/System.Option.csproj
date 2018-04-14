@@ -70,6 +70,7 @@
     <Compile Include="DictionaryExt.cs" />
     <Compile Include="Option\Argument.cs" />
     <Compile Include="Option\ArgumentList.cs" />
+    <Compile Include="Option\DerivedArgumentList.cs" />
     <Compile Include="Option\DriverFlag.cs" />
     <Compile Include="Option\Option.cs" />
     <Compile Include="Option\InputArgumentList.cs" />
