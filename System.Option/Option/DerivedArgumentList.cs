@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+#pragma warning disable 649
 
 namespace System.Option
 {
@@ -108,8 +109,7 @@ namespace System.Option
                                           string   value)
         {
             int index = _baseArgs.MakeIndex(value);
-            _synthesizedArgs.Add(
-                                new Argument(opt,
+            _synthesizedArgs.Add(new Argument(opt,
                                              MakeArgString(opt.GetPrefix() + opt.GetName()),
                                              index,
                                              _baseArgs.GetArgString(index),
@@ -125,8 +125,7 @@ namespace System.Option
         {
             int index = _baseArgs.MakeIndex(opt.GetName(),
                                            value);
-            _synthesizedArgs.Add(
-                                new Argument(opt,
+            _synthesizedArgs.Add(new Argument(opt,
                                              MakeArgString(opt.GetPrefix() + opt.GetName()),
                                              index,
                                              _baseArgs.GetArgString(index + 1),

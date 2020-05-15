@@ -1,9 +1,20 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace System
 {
     public static class StringExt
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool StartsWithAny(this string         s,
+                                         IEnumerable<string> items,
+                                         StringComparison stringComparison = StringComparison.InvariantCultureIgnoreCase)
+        {
+            //return items.Any(s.StartsWith);
+            return items.Any(i => s.StartsWith(i, stringComparison));
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Empty(this string @this)
         {
@@ -53,18 +64,16 @@ namespace System
         }
 
         /// <summary>
-        /// The algorithm implemented below is the "classic"
-        /// dynamic-programming algorithm for computing the Levenshtein
-        /// distance, which is described here:
-        ///
-        /// http://en.wikipedia.org/wiki/Levenshtein_distance
-        ///
-        /// Although the algorithm is typically described using an m x n
-        /// array, only one row plus one element are used at a time, so this
-        /// implementation just keeps one vector for the row.  To update one entry,
-        /// only the entries to the left, top, and top-left are needed.  The left
-        /// entry is in Row[x-1], the top entry is what's in Row[x] from the last
-        /// iteration, and the top-left entry is stored in Previous.
+        ///     The algorithm implemented below is the "classic"
+        ///     dynamic-programming algorithm for computing the Levenshtein
+        ///     distance, which is described here:
+        ///     http://en.wikipedia.org/wiki/Levenshtein_distance
+        ///     Although the algorithm is typically described using an m x n
+        ///     array, only one row plus one element are used at a time, so this
+        ///     implementation just keeps one vector for the row.  To update one entry,
+        ///     only the entries to the left, top, and top-left are needed.  The left
+        ///     entry is in Row[x-1], the top entry is what's in Row[x] from the last
+        ///     iteration, and the top-left entry is stored in Previous.
         /// </summary>
         /// <param name="fromArray"></param>
         /// <param name="toArray"></param>
